@@ -1,0 +1,338 @@
+export const metadata = {
+  title: 'Agent Protocol Description',
+  description:
+    'Description of the Agent Protocol, its functionality and how to use it.',
+}
+
+# Endpoints
+
+The agent exposes the following endpoints (see the [OpenAPI file](https://github.com/e2b-dev/agent-protocol/blob/main/openapi.yml)):
+
+## List agent tasks {{ tag: 'GET', label: '/agent/tasks' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a list of all agent tasks.
+
+        ### Response
+
+        The response body is a list of `task_id`s.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Create agent task {{ tag: 'POST', label: '/agent/tasks' }}
+
+<Row>
+    <Col>
+
+        This endpoint is used to create a new task for the agent.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="input" type="string">
+                Input prompt for the step.
+            </Property>
+            <Property name="additional_input" type="object">
+                Additional input for the step.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a `Task` object.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/agent/tasks">
+
+            ```bash {{ title: 'cURL' }}
+            curl --request POST http://localhost:8000/agent/tasks
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Get task detail {{ tag: 'GET', label: '/agent/tasks/<task_id>' }}
+
+<Row>
+    <Col>
+
+        Get details about a specified agent task.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a `Task` object.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task_id]
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## List task steps {{ tag: 'GET', label: '/agent/tasks/<task_id>/steps' }}
+
+<Row>
+    <Col>
+
+        List all steps for the specified task.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a list of `step_id`s.
+
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/steps">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task_id]/steps
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Get step detail {{ tag: 'GET', label: '/agent/tasks/<task_id>/steps/<step_id>' }}
+
+<Row>
+    <Col>
+
+        Get details about a specified agent step.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+            <Property name="step_id" type="string">
+                The ID of the step.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a `Step` object.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/steps/<step_id>">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Execute a step {{ tag: 'POST', label: '/agent/tasks/<task_id>/steps/<step_id>' }}
+
+<Row>
+    <Col>
+
+        Execute a next step in the specified agent task.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+            <Property name="step_id" type="string">
+                The ID of the step.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a `Step` object.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/agent/tasks/<task_id>/steps/<step_id>">
+
+            ```bash {{ title: 'cURL' }}
+            curl --request POST http://localhost:8000/agent/tasks/[task_id]/steps/[step_id]
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## List task artifacts {{ tag: 'GET', label: '/agent/tasks/<task_id>/artifacts' }}
+
+<Row>
+    <Col>
+
+        List all artifacts for the specified task.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a list of `Artifacts`s.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/artifacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task_id]/artifacts
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Upload task artifacts {{ tag: 'POST', label: '/agent/tasks/<task_id>/artifacts' }}
+
+<Row>
+    <Col>
+
+        Upload an artifact to the agent.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+            <Property name="relative_path" type="string">
+                The relative path of the artifact.
+            </Property>
+            <Property name="file" type="file">
+                The file to upload.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is a `Artifact` object.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="POST" label="/agent/tasks/<task_id>/artifacts">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task_id]/artifacts' \
+            -F 'relative_path=[relative_path]' \
+            -F 'file=@[file-path]'
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+## Download task artifacts {{ tag: 'GET', label: '/agent/tasks/<task_id>/artifacts/<artifact_id>' }}
+
+<Row>
+    <Col>
+
+        Download an artifact from the agent.
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="task_id" type="string">
+                The ID of the task.
+            </Property>
+            <Property name="artifact_id" type="string">
+                The ID of the artifact.
+            </Property>
+        </Properties>
+
+        ### Response
+
+        The response body is an actual file.
+    </Col>
+    <Col sticky>
+
+        <CodeGroup title="Request" tag="GET" label="/agent/tasks/<task_id>/artifacts/<artifact_id>">
+
+            ```bash {{ title: 'cURL' }}
+            curl http://localhost:8000/agent/tasks/[task-id]/artifacts' \
+            -F 'relative_path=[relative_path]' \
+            -F 'file=@[file-path]'
+            ```
+
+        </CodeGroup>
+    </Col>
+
+</Row>
+
+---
+
+### `agent/tasks/{task_id}/artifacts/{artifact_id}` GET endpoint
+
+Download a specified artifact.
+
+The response body is an actual file.
